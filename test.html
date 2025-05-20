@@ -1,11 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>정호의 공간</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    .sidebar {
+      transition: transform 0.3s ease;
+    }
+    .sidebar-hidden {
+      transform: translateX(-100%);
+    }
+    .sidebar-visible {
+      transform: translateX(0);
+    }
+    .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+  </style>
 </head>
-<body>
-  
+<body class="bg-[#1a1a1a] text-gray-200 min-h-screen">
+
+  <!-- 사이드바 -->
+  <div id="sidebar" class="fixed top-0 left-0 w-64 h-full bg-[#2a2a2a]/90 border-r border-gray-600 sidebar sidebar-hidden z-40">
+    <ul id="menu" class="p-6 space-y-4 text-lg">
+      <li><button data-page="about" class="hover:text-blue-400 w-full text-left">소개</button></li>
+      <li><button data-page="skills" class="hover:text-blue-400 w-full text-left">기술</button></li>
+      <li><button data-page="projects" class="hover:text-blue-400 w-full text-left">프로젝트</button></li>
+      <li><button data-page="contact" class="hover:text-blue-400 w-full text-left">연락처</button></li>
+      <!-- 항목 자유롭게 추가/삭제 가능 -->
+    </ul>
+  </div>
+
+  <!-- 상단바 -->
+  <header class="fixed top-0 left-0 w-full flex items-center justify-between px-6 py-4 border-b border-gray-700 bg-[#222222]/95 z-50 shadow-md">
+    <button id="menuToggle" class="text-white focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+    <span class="text-lg font-semibold text-gray-100">정호의 공간</span>
+  </header>
+
+  <!-- 본문 페이지들 -->
+  <main class="pt-24 px-8 max-w-4xl mx-auto space-y-12">
+
+    <section id="about" class="page active">
+      <h2 class="text-3xl font-bold border-b border-gray-600 pb-2">소개</h2>
+      <p class="mt-4 text-gray-300">안녕하세요. 저는 정호입니다.</p>
+    </section>
+
+    <section id="skills" class="page">
+      <h2 class="text-3xl font-bold border-b border-gray-600 pb-2">기술</h2>
+      <ul class="mt-4 list-disc list-inside text-gray-300 space-y-1">
+        <li>Python, C++, Web, Tailwind</li>
+        <li>AI / 감정 엔진 / 기억 구조 설계</li>
+        <li>보안, 서버, Docker, Nextcloud, DeepSeek</li>
+      </ul>
+    </section>
+
+    <section id="projects" class="page">
+      <h2 class="text-3xl font-bold border-b border-gray-600 pb-2">프로젝트</h2>
+      <p class="mt-4 text-gray-300">AGI 구현 프로젝트를 진행 중입니다.</p>
+    </section>
+
+    <section id="contact" class="page">
+      <h2 class="text-3xl font-bold border-b border-gray-600 pb-2">연락처</h2>
+      <p class="mt-4 text-gray-300">이메일: jeongho@example.com</p>
+    </section>
+
+  </main>
+
+  <!-- JS 로직 -->
+  <script>
+    const toggleBtn = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const menuItems = document.querySelectorAll('#menu button');
+    const pages = document.querySelectorAll('.page');
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('sidebar-hidden');
+      sidebar.classList.toggle('sidebar-visible');
+    });
+
+    menuItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const page = item.getAttribute('data-page');
+
+        // 모든 페이지 숨기기
+        pages.forEach(p => p.classList.remove('active'));
+
+        // 해당 페이지만 보이게
+        document.getElementById(page).classList.add('active');
+
+        // 사이드바 닫기
+        sidebar.classList.add('sidebar-hidden');
+        sidebar.classList.remove('sidebar-visible');
+      });
+    });
+  </script>
+
 </body>
 </html>
